@@ -10,18 +10,37 @@ class Analyzer:
         print("AI ANALYZER STARTED")
         print("==============================")
 
-        if not os.path.exists("memory/execution_results.json"):
+        # -------------------------------------------------
+        # Create required folders
+        # -------------------------------------------------
 
-            print("execution_results.json not found")
+        os.makedirs("memory", exist_ok=True)
+        os.makedirs("reports", exist_ok=True)
+        os.makedirs("screenshots", exist_ok=True)
+
+        # -------------------------------------------------
+        # Read execution results
+        # -------------------------------------------------
+
+        execution_file = "memory/execution_results.json"
+
+        if not os.path.exists(execution_file):
+
+            print("execution_results.json not found.")
+
             return
 
         with open(
-            "memory/execution_results.json",
+            execution_file,
             "r",
             encoding="utf-8"
-        ) as file:
+        ) as f:
 
-            execution_results = json.load(file)
+            execution_results = json.load(f)
+
+        # -------------------------------------------------
+        # Analyze Results
+        # -------------------------------------------------
 
         bugs = []
 
@@ -29,52 +48,75 @@ class Analyzer:
 
         for result in execution_results:
 
-            if result["status"] == "FAIL":
+            status = result.get("status", "").upper()
+
+            if status == "FAIL":
 
                 bug = {
-                    "Bug ID": bug_id,
-                    "Test Case": result["testcase"],
-                    "Severity": "High",
-                    "Priority": "High",
-                    "Status": "Open",
-                    "Reason": result["error"] if result["error"] else "Unexpected application behaviour"
+
+                    "bug_id": f"BUG-{bug_id:03}",
+
+                    "testcase": result.get("testcase"),
+
+                    "status": status,
+
+                    "severity": "High",
+
+                    "priority": "P1",
+
+                    "reason": "Execution Failed",
+
+                    "recommendation": "Investigate application behaviour."
+
                 }
 
                 bugs.append(bug)
 
                 bug_id += 1
 
+        # -------------------------------------------------
+        # Save bugs.json
+        # -------------------------------------------------
+
         with open(
             "memory/bugs.json",
             "w",
             encoding="utf-8"
-        ) as file:
+        ) as f:
 
             json.dump(
                 bugs,
-                file,
+                f,
                 indent=4
             )
 
-        self.generate_bug_report(bugs)
-
-        print(f"\n{len(bugs)} Bugs Found")
+        print(f"\n{len(bugs)} Bug(s) Found")
 
         print("bugs.json created")
+
+        # -------------------------------------------------
+        # Generate Markdown Report
+        # -------------------------------------------------
+
+        self.generate_bug_report(bugs)
 
         print("AI_Bug_Report.md created")
 
         print("Analyzer Finished")
 
+    # -----------------------------------------------------
+
     def generate_bug_report(self, bugs):
 
+        report_file = "reports/AI_Bug_Report.md"
+
         with open(
-            "reports/AI_Bug_Report.md",
+            report_file,
             "w",
             encoding="utf-8"
         ) as report:
 
-            report.write("# AI QA Bug Report\n\n")
+            report.write("# AI Bug Report\n\n")
 
             if len(bugs) == 0:
 
@@ -84,16 +126,20 @@ class Analyzer:
 
             for bug in bugs:
 
-                report.write(f"## Bug {bug['Bug ID']}\n\n")
+                report.write(f"## {bug['bug_id']}\n\n")
 
-                report.write(f"**Test Case:** {bug['Test Case']}\n\n")
+                report.write(f"**Test Case :** {bug['testcase']}\n\n")
 
-                report.write(f"**Severity:** {bug['Severity']}\n\n")
+                report.write(f"**Status :** {bug['status']}\n\n")
 
-                report.write(f"**Priority:** {bug['Priority']}\n\n")
+                report.write(f"**Severity :** {bug['severity']}\n\n")
 
-                report.write(f"**Status:** {bug['Status']}\n\n")
+                report.write(f"**Priority :** {bug['priority']}\n\n")
 
-                report.write(f"**Reason:** {bug['Reason']}\n\n")
+                report.write(f"**Reason :** {bug['reason']}\n\n")
+
+                report.write(
+                    f"**Recommendation :** {bug['recommendation']}\n\n"
+                )
 
                 report.write("---\n\n")
