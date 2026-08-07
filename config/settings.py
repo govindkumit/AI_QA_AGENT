@@ -1,5 +1,5 @@
 BASE_URL = "https://www.saucedemo.com"
 
-HEADLESS = False
+HEADLESS = True
 
 TIMEOUT = 30000
