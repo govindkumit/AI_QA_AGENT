@@ -1,0 +1,51 @@
+name: AI QA Agent
+
+on:
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+
+  ai-qa:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Browsers
+        run: |
+          playwright install chromium
+
+      - name: Run AI QA Agent
+        run: |
+          python ai_qa_agent.py
+
+      - name: Run Pytest
+        run: |
+          pytest
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-QA-Reports
+          path: |
+            reports/
+            screenshots/
+            memory/
