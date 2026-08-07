@@ -1,28 +1,25 @@
 name: AI QA Agent
 
 on:
-
   push:
     branches:
+      - master
       - main
 
   workflow_dispatch:
 
 jobs:
-
   ai-qa:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Source
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install Dependencies
         run: |
@@ -31,7 +28,7 @@ jobs:
 
       - name: Install Playwright Browsers
         run: |
-          playwright install chromium
+          python -m playwright install chromium
 
       - name: Run AI QA Agent
         run: |
@@ -42,6 +39,7 @@ jobs:
           pytest
 
       - name: Upload Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: AI-QA-Reports
