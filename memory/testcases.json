@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Valid Login",
+        "priority": "High",
+        "expected": "User should login successfully"
+    },
+    {
+        "id": 2,
+        "name": "Invalid Login",
+        "priority": "High",
+        "expected": "Error message should appear"
+    },
+    {
+        "id": 3,
+        "name": "Blank Username",
+        "priority": "Medium",
+        "expected": "Username validation message"
+    },
+    {
+        "id": 4,
+        "name": "Blank Password",
+        "priority": "Medium",
+        "expected": "Password validation message"
+    },
+    {
+        "id": 5,
+        "name": "Verify 'Login' Button",
+        "priority": "Medium",
+        "expected": "Login button should work correctly"
+    }
+]

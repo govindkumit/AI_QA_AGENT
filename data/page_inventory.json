@@ -1,0 +1,27 @@
+{
+    "title": "Swag Labs",
+    "url": "https://www.saucedemo.com/",
+    "inputs": [
+        {
+            "type": "text",
+            "name": "user-name",
+            "id": "user-name",
+            "placeholder": "Username"
+        },
+        {
+            "type": "password",
+            "name": "password",
+            "id": "password",
+            "placeholder": "Password"
+        },
+        {
+            "type": "submit",
+            "name": "login-button",
+            "id": "login-button",
+            "placeholder": ""
+        }
+    ],
+    "buttons": [],
+    "links": [],
+    "dropdowns": 0
+}

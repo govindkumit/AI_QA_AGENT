@@ -1,0 +1,27 @@
+[
+    {
+        "testcase": "Valid Login",
+        "status": "PASS",
+        "error": ""
+    },
+    {
+        "testcase": "Invalid Login",
+        "status": "PASS",
+        "error": ""
+    },
+    {
+        "testcase": "Blank Username",
+        "status": "PASS",
+        "error": ""
+    },
+    {
+        "testcase": "Blank Password",
+        "status": "PASS",
+        "error": ""
+    },
+    {
+        "testcase": "Verify 'Login' Button",
+        "status": "SKIPPED",
+        "error": ""
+    }
+]
